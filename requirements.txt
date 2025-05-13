@@ -1,0 +1,6 @@
+# Core Python Libraries
+# Add any specific dependencies your project needs
+# Example:
+# requests==2.26.0
+# numpy==1.21.2
+# pandas==1.3.3
