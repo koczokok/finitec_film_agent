@@ -1,29 +1,29 @@
-import os
-from dotenv import load_dotenv
-from pydantic import BaseModel
 
-from pydantic_ai import Agent
-from pydantic_ai.models.openai import OpenAIModel
-from pydantic_ai.providers.openai import OpenAIProvider
+import wptools
+import re
+page = wptools.page("Parasite (2019 film)")
+page.get_parse()  # Can also use get() or get_wikidata()
 
-# Load environment variables from .env file
-load_dotenv()
+infobox = page.data.get("infobox")
+budget = infobox.get("budget")
+print("Trsing")
+def clean_budget(raw_budget: str) -> str:
+    raw_budget = str(raw_budget)
 
+    # Step 1: Remove ALL wikitext templates like {{...}} (including nested)
+    # This uses a smarter regex to handle multiple and nested-ish cases
+    cleaned = re.sub(r"\{\{[^{}]*\}\}", "", raw_budget)
 
-class CityLocation(BaseModel):
-    city: str
-    country: str
+    # Step 2: Remove any HTML comments or residual brackets (just in case)
+    cleaned = re.sub(r"<!--.*?-->", "", cleaned)
+    cleaned = re.sub(r"\[.*?\]", "", cleaned)
 
+    # Step 3: Collapse whitespace and remove stray commas
+    cleaned = re.sub(r"\s+", " ", cleaned)
+    cleaned = cleaned.replace(" ,", ",").strip(" ,\n\t")
+    print(cleaned)
+    return cleaned
 
-ollama_model = OpenAIModel(
-    model_name='llama3.2', 
-    provider=OpenAIProvider(base_url='http://localhost:11434/v1'), 
-    system_prompt_role=(
-        'You are a helpful assistant that provides precise, '
-        'structured information about Olympic host cities.'
-    ),
-)
-agent = Agent(ollama_model, output_type=CityLocation)
-
-result = agent.run_sync('Where were the 2024 Summer Olympics held? Provide the city, country, and whether it is a capital city.')
-print(result.output)
+clean_budget(budget)
+# print(infobox.get('budget'))
+print(infobox)
