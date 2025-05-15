@@ -1,7 +1,7 @@
 
 import wptools
 import re
-page = wptools.page("Parasite (2019 film)")
+page = wptools.page("Joker")
 page.get_parse()  # Can also use get() or get_wikidata()
 
 infobox = page.data.get("infobox")
