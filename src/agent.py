@@ -21,8 +21,6 @@ from pydantic_ai.exceptions import ModelRetry
 from pydantic_ai.providers.openai import OpenAIProvider
 from pydantic_ai.models.openai import OpenAIModel
 
-# Setup
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
 load_dotenv()
 
 wiki = Wikipedia(user_agent="Film_Agent (p.kurylowicz@outlook.com)", language="en")
@@ -39,7 +37,7 @@ model = OpenAIModel(
     provider=OpenAIProvider(api_key=os.getenv("OPEN_API_KEY"))
 )
 
-# Optional: Switch to Ollama (local model)
+# Optional: Ollama 
 # model = OpenAIModel(
 #     model_name=os.getenv("LLM_MODEL"),
 #     provider=OpenAIProvider(
@@ -49,10 +47,11 @@ model = OpenAIModel(
 # )
 
 # Logfire setup
-logfire_token = os.getenv("LOGFIRE_TOKEN", "")
-logfire.configure(token=logfire_token)
-logfire.info("Hello, {place}!", place="World")
-logfire.instrument_openai()
+# logfire_token = os.getenv("LOGFIRE_TOKEN")
+# logfire.configure(token=logfire_token)
+# logfire.configure(send_to_logfire='never')
+# logfire.instrument_openai()
+
 
 class Film(BaseModel):
     name: str
@@ -106,7 +105,7 @@ async def wikipedia_search(ctx: RunContext[Deps], film_name: str) -> str:
     If Budget is a range take upper bound.
     """
     page = wptools.page(film_name)
-    page.get_parse()
+    page.get_parse(show=False)
     infobox = page.data.get("infobox")
 
     try:
@@ -189,26 +188,3 @@ async def web_search(ctx: RunContext[Deps], web_query: str) -> str:
     ])
 
     return search_text
-
-# Test run
-async def main():
-    async with AsyncClient() as client:
-        brave_api_key = os.getenv("BRAVE_API_KEY", "")
-        if not brave_api_key:
-            print("Error: BRAVE_API_KEY is not set in .env")
-            return
-
-        deps = Deps(client=client, brave_api_key=brave_api_key)
-
-        try:
-            results = await web_search_agent.run("Find me financial summary of film Jurassic Park", deps=deps)
-            print("Search Results:")
-            print(results.output)
-
-        except Exception as e:
-            print(f"Error in web search: {e}")
-            import traceback
-            traceback.print_exc()
-
-if __name__ == "__main__":
-    asyncio.run(main())
