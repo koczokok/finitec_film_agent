@@ -56,6 +56,7 @@ model = OpenAIModel(
 class Film(BaseModel):
     name: str
     budget: int = Field(default=0, description="Budget in millions USD just an integer")
+    box_office: int = Field(default=0, description="Box office in millions USD just an integer")
     profit: int = Field(default=0, description="Profit in millions USD just an integer")
     tool_name: str = Field(default="", description="Name of the tool used")
 
@@ -77,7 +78,8 @@ REQUIRED OUTPUT FORMAT:
 {
 "name": "Film Name",
 "budget": 150,
-"profit": 100,
+"box_office": 200,
+"profit": 50,
 "tool_name": "film_file_search"
 }
 

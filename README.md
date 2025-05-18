@@ -72,6 +72,7 @@ The agent provides detailed financial information about films in a structured fo
 ```
 Film: [Film Title] (Year)
 Budget: $[Amount] million
+Box office: $[Amount] million
 Profit: $[Amount] million
 Data Source: [Data Source]
 ```

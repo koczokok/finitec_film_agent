@@ -45,6 +45,7 @@ async def run_agent(user_input: str):
         return (
             f"**Film:** {film.name}\n\n"
             f"**Budget (mln USD):** {film.budget}\n\n"
+            f"**Box office (mln USD):** {film.box_office}\n\n"
             f"**Profit (mln USD):** {film.profit}\n\n"
             f"**Data source:** {film.tool_name}"
         )
