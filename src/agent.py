@@ -123,7 +123,7 @@ async def internal_search(ctx: RunContext[Deps], film_name: str) -> str:
     Always use this tool first.
     Searches for a film in the local markdown files. Falls back to web if film name mismatch.
     """
-    movie_folder = Path("D:\\WORK\\ML\\Finitec\\Film\\movies")
+    movie_folder = Path("movies")
     files = list(movie_folder.glob("*.md"))
 
     if not files:
