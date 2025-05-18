@@ -64,6 +64,23 @@ The Film Agent can retrieve financial information about films from multiple sour
 2. **Wikipedia**: Fetches data from Wikipedia pages
 3. **Web Search**: Performs web searches as a fallback
 
+## 📊 Agent Output
+
+The agent provides detailed financial information about films in a structured format. Here's what you can expect in the output:
+
+### Standard Output Format
+```
+Film: [Film Title] (Year)
+Budget: $[Amount] million
+Profit: $[Amount] million
+Data Source: [Data Source]
+```
+
+
+
+### Error Handling
+- When data is incomplete or inconsistent, the agent will mark it as 0
+- The agent will automatically try alternative sources if the primary source doesn't have the requested information
 
 ## 📂 Project Structure
 
