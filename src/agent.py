@@ -121,7 +121,7 @@ async def internal_search(ctx: RunContext[Deps], film_name: str) -> str:
     """
     That is the most trustworthy source of information for film financial data.
     Always use this tool first.
-    Searches for a film in the local markdown files. Falls back to web if film name mismatch.
+    Search for a film in the local markdown files. Fall back to wikipedia search if film name mismatch.
     """
     movie_folder = Path("movies")
     files = list(movie_folder.glob("*.md"))
@@ -155,7 +155,7 @@ async def internal_search(ctx: RunContext[Deps], film_name: str) -> str:
 async def web_search(ctx: RunContext[Deps], web_query: str) -> str:
     """ 
     Create a web_query to search for film financial information
-    This is your last resort tool. Use it only if you cannot find the information in the files. 
+    This is your last resort tool. Use it only if you cannot find the information in the local markdown files or wikipedia search. 
     If you cannot find the information try to rerun the tool with a different query.
     In your web_query try to be as specific as possible and include the year of the film.
     Profit should be box office - budget.

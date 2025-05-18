@@ -12,7 +12,7 @@ from agent import web_search_agent, Deps
 
 load_dotenv()
 
-logfire.configure(send_to_logfire='never')
+# logfire.configure(send_to_logfire='never')
 
 class CLI:
     def __init__(self):

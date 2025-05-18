@@ -1,4 +1,5 @@
 from __future__ import annotations
+import streamlit_patch
 import asyncio
 import os
 from typing import Literal, TypedDict
@@ -9,6 +10,8 @@ from httpx import AsyncClient
 from pydantic_ai.models.openai import OpenAIModel
 from pydantic_ai.providers.openai import OpenAIProvider
 from pydantic_ai.messages import ModelRequest, ModelResponse, UserPromptPart, TextPart
+os.environ["STREAMLIT_WATCHDOG_USE_POLLING"] = "true"
+os.environ["STREAMLIT_WATCH_DIRECTORIES"] = "D:/WORK/ML/Finitec/Film/src"
 
 from agent import web_search_agent, Deps
 
