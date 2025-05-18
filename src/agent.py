@@ -3,7 +3,7 @@ import os
 import asyncio
 from pathlib import Path
 from dataclasses import dataclass
-from typing import Any
+
 
 from dotenv import load_dotenv
 from httpx import AsyncClient
@@ -25,10 +25,6 @@ load_dotenv()
 
 wiki = Wikipedia(user_agent="Film_Agent (p.kurylowicz@outlook.com)", language="en")
 sentence_model = SentenceTransformer("all-MiniLM-L6-v2")
-movie_folder = Path("./movies")
-files = list(movie_folder.glob("*.md"))
-file_texts = [f.read_text(encoding="utf-8") for f in files]
-embeddings = sentence_model.encode(file_texts)
 
 # LLM Setup
 client = AsyncClient()
@@ -53,7 +49,7 @@ model = OpenAIModel(
 # logfire.instrument_openai()
 
 
-class Film(BaseModel):
+class FilmFinancialData(BaseModel):
     name: str
     budget: int = Field(default=0, description="Budget in millions USD just an integer")
     box_office: int = Field(default=0, description="Box office in millions USD just an integer")
@@ -92,7 +88,7 @@ STRICT GUIDELINES:
 
 You are a reliable, methodical assistant. Precision and consistency matter more than speed. Follow the tool order strictly and never skip fallback logic.
 """,
-    output_type=Film,
+    output_type=FilmFinancialData,
     deps_type=Deps,
     retries=4,
 )
